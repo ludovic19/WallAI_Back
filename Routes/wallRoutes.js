@@ -1,7 +1,6 @@
 import express from "express";
 import * as dotenv from "dotenv";
 import { Configuration, OpenAIApi } from 'openai';
-// import {getAllPosts} from "../Controller/post"
 
 dotenv.config();
 
@@ -13,12 +12,12 @@ const configuration = new Configuration({
 
 const openai = new OpenAIApi(configuration);
 
-// router.route('/').get({getAllPosts})
+
 router.route('/').get((req,res)=>{
     res.status(200).json({ message : 'The Wall Community'})
 })
 
-router.route('/').post(async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const { prompt } = req.body;
 

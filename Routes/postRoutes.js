@@ -1,6 +1,7 @@
 import express from "express";
 import * as dotenv from "dotenv";
 import { v2 as cloudinary } from 'cloudinary'
+import verify from "../Middlewares/verify.js";
 
 import Post from '../MongoDB/models/post.js';
 
@@ -14,9 +15,9 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET,
 })
 
-router.route('/').get( async (req,res) => {
+router.get('/', async (req,res) => {
     try {
-        const posts = await Post.find({});
+        const posts = await Post.find({})
 
         res.status(200).json({ success : true, data : posts })
     } catch(error) {
@@ -24,15 +25,17 @@ router.route('/').get( async (req,res) => {
     }
 })
 
-router.route('/').post( async (req,res) => {
+router.post('/', async (req,res) => {
     try {
         const { name, prompt, photo } = req.body;
+        // const userId = req.user._id
     const photoUrl = await cloudinary.uploader.upload(photo);
 
     const newPost = await Post.create({
         name,
         prompt,
-        photo: photoUrl.url
+        photo: photoUrl.url,
+        userId : req.body.userId
     })
 
     res.status(201).json({ success : true, data : newPost})
