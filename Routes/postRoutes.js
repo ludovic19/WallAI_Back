@@ -25,6 +25,16 @@ router.get('/', async (req,res) => {
     }
 })
 
+router.get('/:userId', async (req,res) => {
+    try {
+        const posts = await Post.find({userId : req.params.userId})
+
+        res.status(200).json({ success : true, data : posts })
+    } catch(error) {
+        res.status(500).json({ success : false, message : error })
+    }
+})
+
 router.post('/', async (req,res) => {
     try {
         const { name, prompt, photo } = req.body;

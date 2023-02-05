@@ -14,6 +14,7 @@ authRoutes.post('/register', async (req, res)=> {
     const hashPassword = await bcrypt.hash(req.body.password, salt)
 
     const user = new Users({
+        username : req.body.username,
         first_name : req.body.first_name,
         last_name : req.body.last_name,
         email : req.body.email,
@@ -21,7 +22,7 @@ authRoutes.post('/register', async (req, res)=> {
     })
 
     user.save()
-    res.send(`Welcome ${user.first_name}`)
+    res.send(`Welcome ${user.username}`)
 
     //     Users
     // .create(req.body)
