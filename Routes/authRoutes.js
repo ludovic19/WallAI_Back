@@ -2,11 +2,25 @@ import express from "express";
 import Users from "../MongoDB/models/users.js";
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
+import multer from "multer";
+
+
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+      cb(null, 'public/images/');
+    },
+    filename: function(req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now() +  '.' + file.originalname.split('.').pop());
+    }
+  });
+  
+  const upload = multer({ storage: storage });
 
 const authRoutes = express.Router()
 
-authRoutes.post('/register', async (req, res)=> {
+authRoutes.post('/register', upload.single('image'), async (req, res)=> {
 
+    try{
     const emailExist = await Users.findOne({email : req.body.email})
     if(emailExist) return res.status(400).send('Account already exist')
 
@@ -18,18 +32,17 @@ authRoutes.post('/register', async (req, res)=> {
         first_name : req.body.first_name,
         last_name : req.body.last_name,
         email : req.body.email,
-        password : hashPassword
+        password : hashPassword,
+        image : "/public/images/preview.png"
     })
 
     user.save()
     res.send(`Welcome ${user.username}`)
-
-    //     Users
-    // .create(req.body)
-    // .then(newUser => res.json(newUser))
-    // .catch(err => res.json(err))
-    // console.log(req.body)
+    } catch (err){
+        res.json(err)
+    }
 })
+
 
 authRoutes.post('/login', async (req, res)=> {
 
@@ -41,7 +54,7 @@ authRoutes.post('/login', async (req, res)=> {
 
     const token = jwt.sign({user}, process.env.SECRET)
     res.header("auth-token", token)
-    res.json(token)
+    res.json([token, user])
 })
 
 

@@ -2,12 +2,14 @@
 import express from "express";
 import * as dotenv from "dotenv";
 import cors from "cors";
-
 import connectDB from "./MongoDB/connect.js";
 import postRoutes from './Routes/postRoutes.js';
 import wallRoutes from './Routes/wallRoutes.js';
 import authRoutes from './Routes/authRoutes.js';
 import userRoutes from "./Routes/userRoutes.js";
+import path from "path";
+import fs from "fs"
+
 
 dotenv.config();
 
@@ -20,6 +22,23 @@ app.use('/api/post', postRoutes);
 app.use('/api/wall', wallRoutes);
 app.use('/auth', authRoutes)
 app.use('/api', userRoutes)
+
+app.use('/images', express.static('public/images'));
+
+
+app.get('/public/images/:filename', (req, res) => {
+    const file = `public/images/${req.params.filename}`;
+    res.sendFile(path.resolve(file));
+  });
+
+  app.get('/images', (req, res) => {
+    fs.readdir('public/images', (err, files) => {
+      if (err) {
+        return res.status(500).send({ error: err });
+      }
+      res.send({ images: files });
+    });
+  });
 
 app.get("/", async (req, res) => {
   res.status(200).json({
