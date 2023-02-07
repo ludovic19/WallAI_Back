@@ -25,7 +25,7 @@ router.get('/', async (req,res) => {
     }
 })
 
-router.get('/:userId', async (req,res) => {
+router.get('/user/:userId', async (req,res) => {
     try {
         const posts = await Post.find({userId : req.params.userId})
 
@@ -35,10 +35,21 @@ router.get('/:userId', async (req,res) => {
     }
 })
 
+router.get('/:id', async (req, res) => {
+    try {
+        const post = await Post.findOne({id : req.params._id})
+
+        res.status(200).json({ success : true, data : post })
+    } catch(error) {
+        res.status(500).json({ success : false, message : error })
+    }
+   
+})
+
 router.post('/', async (req,res) => {
     try {
         const { name, prompt, photo } = req.body;
-        // const userId = req.user._id
+      
     const photoUrl = await cloudinary.uploader.upload(photo);
 
     const newPost = await Post.create({
