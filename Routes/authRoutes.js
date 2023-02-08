@@ -43,6 +43,12 @@ authRoutes.post('/register', upload.single('image'), async (req, res)=> {
     }
 })
 
+// authRoutes.put('/resgister/:id', upload.single('image'), async (req,res) => {
+//   await Users.findOneAndUpdate({_id : req.params.id}, {$set : req.body}, {new : true})
+//   .then(newUser => res.json(newUser))
+//   .catch(err => res.json(err))
+// })
+
 
 authRoutes.post('/login', async (req, res)=> {
 

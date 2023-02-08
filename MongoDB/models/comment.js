@@ -5,10 +5,10 @@ const Comment = new mongoose.Schema({
     comment : { type : String, required : true},
     date : {type : Date, default : Date.now()},
     userId : { type : mongoose.Schema.Types.ObjectId, ref : 'Users'},
-    PostId : { type : mongoose.Schema.Types.ObjectId, ref : 'Post'}
+    postId : { type : mongoose.Schema.Types.ObjectId, ref : 'Post'}
 
 });
 
-const PostSchema = mongoose.model('Comment', Comment)
+const CommentSchema = mongoose.model('Comment', Comment)
 
-export default PostSchema;
+export default CommentSchema;

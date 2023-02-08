@@ -37,7 +37,7 @@ router.get('/user/:userId', async (req,res) => {
 
 router.get('/:id', async (req, res) => {
     try {
-        const post = await Post.findOne({id : req.params._id})
+        const post = await Post.findOne({_id : req.params.id})
 
         res.status(200).json({ success : true, data : post })
     } catch(error) {
@@ -63,6 +63,12 @@ router.post('/', async (req,res) => {
     } catch(error) {
     res.status(500).json({ success : false, message : error}) 
     }
+})
+
+router.delete('/:id', (req, res) => {
+    Post.deleteOne({_id : req.params.id})
+    .then(() => res.json("deleted successfully"))
+    .catch(err => res.json(err))
 })
 
 export default router;

@@ -7,7 +7,7 @@ import postRoutes from './Routes/postRoutes.js';
 import wallRoutes from './Routes/wallRoutes.js';
 import authRoutes from './Routes/authRoutes.js';
 import userRoutes from "./Routes/userRoutes.js";
-// import commentRoutes from "./Routes/commentRoutes.js";
+import commentRoutes from "./Routes/commentRoutes.js";
 import path from "path";
 import fs from "fs"
 
@@ -21,7 +21,7 @@ app.use(express.urlencoded({extended : true}))
 
 app.use('/api/post', postRoutes);
 app.use('/api/wall', wallRoutes);
-// app.use('api/comment', commentRoutes)
+app.use('/api/comment', commentRoutes)
 app.use('/auth', authRoutes)
 app.use('/api', userRoutes)
 
