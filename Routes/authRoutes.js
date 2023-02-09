@@ -43,13 +43,6 @@ authRoutes.post('/register', upload.single('image'), async (req, res)=> {
     }
 })
 
-// authRoutes.put('/resgister/:id', upload.single('image'), async (req,res) => {
-//   await Users.findOneAndUpdate({_id : req.params.id}, {$set : req.body}, {new : true})
-//   .then(newUser => res.json(newUser))
-//   .catch(err => res.json(err))
-// })
-
-
 authRoutes.post('/login', async (req, res)=> {
 
     const user = await Users.findOne({email : req.body.email})
@@ -62,44 +55,5 @@ authRoutes.post('/login', async (req, res)=> {
     res.header("auth-token", token)
     res.json([token, user])
 })
-
-
-
-// authRoutes.get('/user', (req, res) => {
-//     Users
-//     .find()
-//     .then(user => 
-//         res.json(user)
-//         )
-//     .catch(err => res.json(err))
-// })
-
-// authRoutes.get('/user/:id', (req, res) => {
-//     Users
-//     .findOne({_id : req.params.id})
-//     .then(OneUser => res.json(OneUser))
-//     .catch(err => res.json(err))
-// })
-
-// authRoutes.get('/user/email/:email', (req, res) => {
-//     Users
-//     .findOne({email: req.params.email})
-//     .then(OneUser => res.json(OneUser))
-//     .catch(err => res.json(err))
-// })
-
-// authRoutes.put('/user/:id', async (req,res) => {
-//     await User.findOne({_id : req.params.id})
-//     await User.updateOne({$set : req.body})
-//     await User.findOne({_id : req.params.id})
-//     .then(newUser => res.json(newUser))
-//     .catch(err => res.json(err))
-// })
-
-// authRoutes.delete('/user/:id', (req, res) => {
-//     Users.deleteOne({_id : req.params.id})
-//     .then(() => res.json("deleted successfully"))
-//     .catch(err => res.json(err))
-// })
 
 export default authRoutes
